@@ -1,0 +1,45 @@
+class BookInventory {
+    private int copiesTotal;
+    private int copiesAvailable;
+
+    BookInventory(int copiesTotal) {
+        if (copiesTotal <= 0) {
+            throw new IllegalArgumentException("copiesTotal must be positive");
+        }
+        this.copiesTotal = copiesTotal;
+        this.copiesAvailable = copiesTotal;
+    }
+
+    void checkOut() {
+        if (copiesAvailable > 0) {
+            copiesAvailable--;
+        }
+        // else: silently rejected — nothing left to check out
+    }
+
+    void checkIn() {
+        if (copiesAvailable < copiesTotal) {
+            copiesAvailable++;
+        }
+        // else: silently rejected — already full
+    }
+
+    int getCopiesAvailable() {
+        return copiesAvailable;
+    }
+
+    public static void main(String[] args) {
+        try {
+            new BookInventory(0);
+        } catch (IllegalArgumentException e) {
+            System.out.println("construction rejected");
+        }
+
+        BookInventory b = new BookInventory(3);
+        b.checkOut(); b.checkOut(); b.checkOut(); b.checkOut();
+        System.out.println(b.getCopiesAvailable()); // 0
+
+        b.checkIn(); b.checkIn(); b.checkIn(); b.checkIn();
+        System.out.println(b.getCopiesAvailable()); // 3
+    }
+}
